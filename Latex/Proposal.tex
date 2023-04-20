@@ -1,0 +1,76 @@
+\documentclass[11pt]{article}
+
+\usepackage[sorting=none]{biblatex}
+\usepackage[margin=1in]{geometry}
+\usepackage{times}
+
+\addbibresource{Cite.bib}
+
+\begin{document}
+
+\title{Dynamic Generation of Statblocks for Pathfinder 2nd Edition through Machine Learning Models}
+
+\author{Vess\\ \\February 2023}
+\date{}
+
+\maketitle
+
+\section{Problem Identification}
+
+Tabletop roleplaying games (TTRPGs) are an increasingly popular pastime for many board game and war game enthusiasts. TTRPGs are generally played through two roles-- the typically solo Game Master (GM) / Dungeon Master (DM), and a group of two players or more. The GM utilizes a TTRPG system with a ``system book'', such as Dungeons and Dragons or Pathfinder, which acts as a rules reference to run the players through homemade or already published content. The GM performs rule adjudication for various actions the players wish to perform in the shared narrative game world. These TTRPGs are usually experienced through two primary modes of play, roleplaying and combat.
+
+In the combat mode of play GMs rely on premade and hopefully balanced ``statblocks'' for various monsters, creatures, and enemies, that the players can encounter and fight in the course of gameplay. Statblocks consist of numerical values that are representations of an enemy's features, such as strength, dexterity, constitution, and so on, with each of these statistics providing mechanical system differences. While GMs can normally rely on a wealth of these premade statblocks for many enemy types, there are various concepts that are still yet unrepresented. Although GMs can naturally sit down and design their own enemy statblocks, this is both time-consuming and difficult to ``balance'' properly relative to the skill of experienced game designers who have a deeper understanding of their domain specific systems.
+
+This is where and why a consideration for machine learning seems to be an obvious answer. The many premade statblocks mainly consist of numerical values and ordinal types. Given that there exists this preestablished, extensive, and balanced set of statblocks, there is a prime opportunity to train machine learning models on them and automate subsequent generation of similar statblocks for GM usage on an as-needed basis. This would save time for TTRPG gamers, provide unique statblocks to make use of, and also present an opportunity for further understanding of how enemy features interrelate. This subject will be the focus of my study.
+
+\section{Literature Survey}
+
+The utilization of machine learning and artificial intelligence within the scope of TTRPGs like Dungeons and Dragons (DnD) and Pathfinder (PF) remains relatively unresearched. However, with the recent release of ChatGPT \cite{openai_2023} there has been a spur of interest in the application of adaptive algorithms towards these style of games. ChatGPT users were quick to teach the AI slimmed down rules of prototypical TTRPGs and have the AI function as a sort of robot-DM for them \cite{murray_2022}. ChatGPT was able to pay attention to the mechanics relayed to it, creatively interpret the input, and provide much of the same experience as that of the job of a human GM with only minor deviations. This community astonishment seemed not to have escaped the eye of DnD's owner, WoTC (Wizards of the Coast). Leaked internal plans for the company, later corroborated by internal sources within the company, showed that WoTC had interest in the inclusion of ``AI-DMs'' \cite{law_2023} for solo players or other player groups that lacked one. Thereby the potential of both untapped interest and the opportunity for more targeted research seems both warranted and necessary.
+
+Apart from ChatGPT, which pointedly is not specifically trained for the task of AI-DMing and thus falls short in many regards of a fully realized vision of it, there have been a few scant recent pushes on this front in terms of formal research. Researchers have looked not to generate the statblocks of enemies, but of players \cite{MacInnes2019TheDS}, taking in a biography or description and deriving the rest of a character sheet for them from said text. Dynamically their model was able to provide some prediction of a player character's preferred race, class, and ``attribute scores'' \cite{MacInnes2019TheDS} which is the DnD system specific term for the aforementioned stats like strength, dexterity, constitution, etc. While some have curated a particular interest in DnD statistical relations \cite{holding_2022, keefe_2020} most informally published research has primarily only concerned itself with data mining for relations in DnD stats \cite{cyberscribe_2020}. These will perhaps be the closest kinds of research to mine, but lack my interest of the next step-- which is on-demand dynamic generation with machine learning models.
+
+For an understanding of why DnD research will apply to my PF research a historical clarification must be made. TTRPG system books are updated and released in iterative fashion, known as editions. DnD has to date received five such editions, with DnD 5e being the current. In the transition between editions known as DnD 3.5 and DnD 4, the once permissive licensing of DnD would receive changes that caused a schism in the community \cite{author_2011}. PF was one such spinoff system, built on the foundations of DnD 3.5. Pathfinder would eventually receive its own updated version, colloquially referred to as PF2e. While PF and consequentially PF2e have received various changes that distinguish them from DnD 3.5, much of the same ``DnD skeleton'' still exists within PF properties, and thus DnD research remains applicable and useful to mine.
+
+In the same vein of domain-specific research to DnD, being that it is one of the most widely known and popular systems, and thus is one of the few TTRPGs to receive any academic attention, there have been a few forays into answering questions about what it would be like to apply machine learning concepts towards the subject. Some researchers have approached the topic and astutely pointed out DnD and other TTRPGs' apt usage for machine learning model study \cite{Martin2018DungeonsAD, DBLP:journals/corr/abs-2007-06108}. Given that DnD and TTRPGs in general incorporate both structured math in the form of statistical allegories, and structured play in the form of dice, applied statistics, and some bounded randomness, as well as a high propensity for large natural language datasets, it's no surprise that the surprisingly little research I could find concerned attempts to teach AIs how to generate narratives or play DnD.
+
+A less stat focused research paper concerned itself with attempts to learn, interpret, and then produce DnD-like narratives through the data mining of TTRPG transcripts \cite{louis-sutton-2018-deep}. Such interest was not alone as later research concerned itself with full generation of typical DnD game turns \cite{https://doi.org/10.48550/arxiv.2210.07109}. They attempted to model both the combat and roleplaying modes of DnD, incorporating similarly large transcript datasets \cite{https://doi.org/10.48550/arxiv.2210.07109}. While the results were not as widely notable as ChatGPT's progress has been in this unconsidered field of study, the interest and the lessons learned cannot be discounted. While the interest of my research will primarily be concerned with a specific domain of TTRPG data mining and dynamic generation (Pathfinder statblocks), the work towards predicting average DnD character statistics \cite{MacInnes2019TheDS}, previous work of my own with DnD statblock statistics \cite{vess-dev_2022}, and the full integration and parsing of DnD combat (the mechanical application of DnD statblocks) \cite{https://doi.org/10.48550/arxiv.2210.07109} should prove to be invaluable references.
+
+\section{Methodology Outline}
+
+My methodology remains similar to one that I employed in a previous approach to DnD statblock data mining \cite{vess-dev_2022}, albeit with some key differences. First, finding a DnD dataset to use was not difficult given DnD's still lasting popularity in the TTRPG market. However, due to DnD's non-permissive licensing, finding any sizeable dataset that contained commercial licensed content to learn off of was challenging if not altogether illegal. Eventually I was forced to use a dataset that omitted commercial content, and I believe my machine learning models consequentially suffered as a result in analyzing the relations between stats in DnD statblocks. PF2e (and PF in general) thankfully will not face me with that issue due to their still permissive community usage licensing policy \cite{use_2020} where all of their published commercial content is online and available for noncommercial personal use.
+
+Despite this, due to PF2e's admittedly lesser market share and fan population than DnD, premade datasets of PF2e statblocks for data mining and machine learning have proven somewhat difficult to find at first look. So, my first step will primarily be concerned with scraping, cleaning, preparing, and parsing, the statblock data from open websites. One such website has already been located and chosen from a few others to be considered as the best candidate given its clean and accessible formatting \cite{hemerik}. The previous DnD dataset I used clocked in at around approximately $\sim700$ statblocks to use as sample points, whereas preliminary estimates of using PF2e as a resource are in the range of $\sim1,000-4,000$ sample points. While some will inevitably be pruned for various reasons, such as my want to avoid biasing my model with statistically similar statblocks for enemies that are only aesthetically differentiated, this new dataset should prove incredibly beneficial. The programming language Python excels in the problem domain of website scraping and parsing and thus has been selected as my tool of use for not only this job-- but for the machine learning aspect as well due to stable, mature, and extensive existing available machine learning and data mining libraries. Of the libraries, Scikit \cite{scikit1} seems to be most favorable for my conditions, and is one that I already have previous experience working with \cite{vess-dev_2022}.
+
+Second, once I've created a respectable dataset for my purposes and end goals, I will split the dataset into a test and training set, and feed the training set into various machine learning models provided by the Scikit library \cite{scikit2} such as SGD, SVC, RandomForest, KNeighbors, and so on. I will then take these various models and rate them against the test set that they haven't seen yet. Once they've been rated, I will take the best performing models and try grouping them into voting bag classifiers. Then, the best voting bag classifiers will be exported into an application I design that exposes the ability to either enter in some or no data to a user, and get back new generated statblocks. Along the way I will be careful to document my process, the insights that I gain from working with PF2e statblocks and machine learning models, and certainly will come to some conclusion about the viability of the use of my research in future further research on the topic of dynamic statblock generation. 
+
+\section{Timeline Outline}
+
+\begin{center}
+  \begin{tabular}{| l | l |}
+    \hline
+    Week 1: February 11 -- February 18 & Collect Pathfinder 2e statblock dataset \\
+    \hline
+    Week 2: February 18 -- February 25 & Collect Pathfinder 2e statblock dataset \\
+    \hline
+    Week 3: February 25 -- March 4 & Clean Pathfinder 2e statblock dataset \\
+    \hline
+    Week 4: March 4 -- March 11 & Clean Pathfinder 2e statblock dataset \\
+    \hline
+    Week 5: March 11 -- March 18 & Train learning models on dataset \\
+    \hline
+    Week 6: March 18 -- March 25 & Train learning models on dataset \\
+    \hline
+    Week 7: March 25 -- April 1 & Prepare final report draft and oral presentation \\
+    \hline
+    Week 8: April 1 -- April 8 & Prepare final report draft and oral presentation \\
+    \hline
+    Week 9: April 8 -- April 15 & Submit draft of final report \\
+    \hline
+    Week 10: April 15 -- Onwards & Oral presentation of final report \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\printbibliography
+
+\end{document}
