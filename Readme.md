@@ -15,7 +15,7 @@ Python 3, numpy, pandas, scikit (sklearn)
 
 # Credit
 
-Code, LaTex, and project PDFs licensed under CC-BY-4.0.
+Code, LaTeX, and project PDFs licensed under CC-BY-4.0.
 
 Scraped statblock data, and PF2e trademarks copyright to Paizo, licensed under the Paizo Inc. Community Use Policy.
 
